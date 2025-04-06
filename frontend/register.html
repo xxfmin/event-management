@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header id="navbar-placeholder"></header>
+    <div class="center-container">
+        <div class="box">
+            <div style="display: flex; justify-content: center; margin-top: 5rem;">
+                <div class="form-box">
+                    <h2>Register</h2>
+                    <form action="dashboard.html" method="post">
+                        <div class="form-group">
+                            <label for="register-name">Name</label>
+                            <input 
+                                type="text" 
+                                id="register-name" 
+                                name="name" 
+                                placeholder="Enter your name" 
+                                required 
+                                />
+                        </div>
+                      
+                        <div class="form-group">
+                            <label for="register-email">Email</label>
+                            <input 
+                            type="email" 
+                            id="register-email" 
+                            name="email" 
+                            placeholder="Enter your email" r
+                            required 
+                            />
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <input 
+                            type="password" 
+                            id="register-password" 
+                            name="password" 
+                            placeholder="Enter your password" 
+                            required 
+                            />
+                        </div>
+                    
+                        <div class="form-group">
+                            <label for="register-confirm-password">Confirm Password</label>
+                            <input 
+                            type="password" 
+                            id="register-confirm-password" 
+                            name="confirm_password" 
+                            placeholder="Confirm your password" 
+                            required 
+                            />
+                        </div>
+                      <button type="submit" class="btn">Register</button>
+                    </form>
+                  </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+      fetch('navbar.html')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response error');
+          }
+          return response.text();
+        })
+        .then(data=> {
+          document.getElementById('navbar-placeholder').innerHTML = data;
+        })
+        .catch(error=> console.error('Error fetching navbar:', error));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navbar Example</title>
+    <style>
+      /* Basic reset */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #c9d3e7; /* Dark background for contrast */
+      }
+      
+      /* Navbar container */
+      nav {
+        background-color: rgb(100, 100, 219);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 3rem;
+        position: relative;
+        top: 0;
+        width: 100%;
+        z-index: 50;
+      }
+      
+      .navbar-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px; /* Adjust as needed */
+        margin: 0 auto;
+        padding: 0 3rem;
+      }
+      
+      /* Left side of navbar */
+      .navbar-left {
+        display: flex;
+        align-items: center;
+      }
+      
+      .navbar-logo {
+        width: 40px;
+        height: 40px;
+        margin-right: 0.5rem;
+      }
+      
+      .navbar-title {
+        font-size: 2rem;
+        color: #000000;
+      }
+      
+      /* Right side of navbar */
+      .navbar-right {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        color: #ffffff;
+      }
+      
+      .navbar-right button {
+        background: transparent;
+        border: 1px solid #000000;
+        border-radius: 9999px;
+        padding: 0.25rem 1rem;
+        color: #000000;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      
+      .navbar-right button:hover {
+        background-color: #3e6bb3; /* Blue hover effect */
+      }
+      
+      /* Avatar for authenticated state (example) */
+      .avatar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      .avatar img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid #ffffff;
+      }
+      
+      .avatar span {
+        font-weight: bold;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="navbar-left">
+        <!-- Logo image; update "logo.png" to your image file -->
+        <!-- <img src="logo.png" alt="Logo" class="navbar-logo" /> -->
+        <h1 class="navbar-title">Event Viewer</h1>
+      </div>
+      <div class="navbar-right">
+        <!-- Buttons for non-authenticated users -->
+        <button onclick="location.href='index.html'">Home</button>
+        <button onclick="location.href='login.html'">Log In</button>
+        <button onclick="location.href='register.html'">Register</button>
+        <!-- 
+          <button onclick="location.href='events.html'">Events</button>
+          <button onclick="location.href='profile.html'">Profile</button>
+          <button onclick="location.href='logout.html'">Log Out</button>
+          <div class="avatar">
+            <img src="avatar.png" alt="User Avatar" />
+            <span>username</span>
+          </div>
+        -->
+      </div>
+    </nav>
+  </body>
+</html>

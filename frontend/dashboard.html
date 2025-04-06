@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <header id="navbar-placeholder"></header>
+
+
+    <!-- Dashboard Main Content -->
+    <div class="dashboard-container">
+      <header class="dashboard-header">
+        <h1>Welcome, [User Name]</h1>
+        <!-- Admin-only action: conditionally rendered via server-side logic -->
+        <div class="admin-actions">
+          <a href="create-event.html" class="btn btn-primary">Create Event</a>
+        </div>
+      </header>
+
+      <!-- Event Filters -->
+      <section class="event-filters">
+        <button class="filter-btn active" data-filter="all">All Events</button>
+        <button class="filter-btn" data-filter="public">Public Events</button>
+        <button class="filter-btn" data-filter="private">Private Events</button>
+        <button class="filter-btn" data-filter="rso">RSO Events</button>
+      </section>
+
+      <!-- Events List -->
+      <section class="events-list">
+        <!-- Example Event Card -->
+        <div class="event-card">
+          <h2 class="event-title">Event Title</h2>
+          <p class="event-description">
+            Brief description of the event. Details about what the event is about, location, and date/time.
+          </p>
+          <div class="event-meta">
+            <span class="event-date">Date: 2025-04-10</span>
+            <span class="event-time">Time: 6:00 PM</span>
+          </div>
+          <div class="event-actions">
+            <button class="btn btn-secondary">View Details</button>
+          </div>
+        </div>
+        <!-- Repeat similar event cards as needed -->
+      </section>
+    </div>
+    <script>
+        fetch('navbar.html')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response error');
+          }
+          return response.text();
+        })
+        .then(data=> {
+          document.getElementById('navbar-placeholder').innerHTML = data;
+        })
+        .catch(error=> console.error('Error fetching navbar:', error));
+    </script>
+  </body>
+</html>
