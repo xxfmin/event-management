@@ -9,15 +9,17 @@ if (!isset($_SESSION['userID'])) {
     exit();
 }
 
-$userID = $_SESSION['userID'];
-// Retrieve public events, private events (for the user’s university), or RSO events (if the user is a member).
-$sql = "SELECT E.*, L.name as locationName FROM Events E
-        JOIN Locations L ON E.locationID = L.locationID
-        WHERE E.eventType = 'public'
-        OR (E.eventType = 'private' AND E.createdBy IN (SELECT userID FROM Users WHERE universityID = (SELECT universityID FROM Users WHERE userID = $userID)))
-        OR (E.eventType = 'rso' AND E.rsoID IN (SELECT rsoID FROM Students_RSO WHERE userID = $userID))";
-$result = $conn->query($sql);
+$userID = intval($_SESSION['userID']);
 
+// Updated query: Show all public and private events; for RSO events, only show those where the user is a member.
+$sql = "SELECT E.*, L.name AS locationName 
+        FROM Events E 
+        JOIN Locations L ON E.locationID = L.locationID 
+        WHERE E.eventType = 'public' 
+           OR E.eventType = 'private'
+           OR (E.eventType = 'rso' AND E.rsoID IN (SELECT rsoID FROM Students_RSO WHERE userID = $userID))";
+
+$result = $conn->query($sql);
 $events = [];
 while ($row = $result->fetch_assoc()) {
     $events[] = $row;

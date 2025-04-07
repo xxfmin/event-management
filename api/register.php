@@ -6,7 +6,7 @@ include 'connection.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Sanitize inputs
     $username = $conn->real_escape_string($_POST['username'] ?? '');
-    $password = md5($_POST['password'] ?? ''); // For production, use a stronger hash
+    $password = md5($_POST['password'] ?? '');
     $email = $conn->real_escape_string($_POST['email'] ?? '');
     $userType = $conn->real_escape_string($_POST['userType'] ?? '');
     $studentID = $conn->real_escape_string($_POST['studentID'] ?? '');
