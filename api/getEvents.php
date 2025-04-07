@@ -11,7 +11,6 @@ if (!isset($_SESSION['userID'])) {
 
 $userID = intval($_SESSION['userID']);
 
-// Updated query: Show all public and private events; for RSO events, only show those where the user is a member.
 $sql = "SELECT E.*, L.name AS locationName 
         FROM Events E 
         JOIN Locations L ON E.locationID = L.locationID 
