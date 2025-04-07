@@ -17,6 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
     
+    // Check if studentID already exists
+    $checkQuery = "SELECT * FROM Users WHERE studentID='$studentID'";
+    $checkResult = $conn->query($checkQuery);
+    if ($checkResult && $checkResult->num_rows > 0) {
+        echo json_encode(["success" => false, "message" => "Student ID already registered."]);
+        exit();
+    }
+    
+    // Proceed with registration if studentID is unique
     $sql = "INSERT INTO Users (studentID, username, password, email, userType)
             VALUES ('$studentID', '$username', '$password', '$email', '$userType')";
     if ($conn->query($sql) === TRUE) {
