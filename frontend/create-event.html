@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Event</title>
+    <link rel="stylesheet" href="./css/dashboard.css" />
+  </head>
+  <body>
+    <header id="navbar-placeholder"></header>
+    <div class="center-container">
+      <div class="box">
+        <div style="display: flex; justify-content: center; margin-top: 5rem;">
+          <div class="form-box">
+            <h2>Create New Event</h2>
+            <!-- Form with id="createEventForm" -->
+            <form id="createEventForm" method="post">
+              <div class="form-group">
+                <label for="event-name">Event Name</label>
+                <input type="text" id="event-name" name="eventName" placeholder="Enter event name" required />
+              </div>
+              <div class="form-group">
+                <label for="event-category">Category</label>
+                <input type="text" id="event-category" name="eventCategory" placeholder="Enter event category" required />
+              </div>
+              <div class="form-group">
+                <label for="event-description">Description</label>
+                <textarea id="event-description" name="description" placeholder="Enter event description" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="event-date">Date</label>
+                <input type="date" id="event-date" name="eventDate" required />
+              </div>
+              <div class="form-group">
+                <label for="start-time">Start Time</label>
+                <input type="time" id="start-time" name="startTime" required />
+              </div>
+              <div class="form-group">
+                <label for="end-time">End Time</label>
+                <input type="time" id="end-time" name="endTime" required />
+              </div>
+              <div class="form-group">
+                <label for="location-id">Location ID</label>
+                <input type="number" id="location-id" name="locationID" placeholder="Enter location ID" required />
+              </div>
+              <div class="form-group">
+                <label for="contact-phone">Contact Phone</label>
+                <input type="text" id="contact-phone" name="contactPhone" placeholder="Enter contact phone" required />
+              </div>
+              <div class="form-group">
+                <label for="contact-email">Contact Email</label>
+                <input type="email" id="contact-email" name="contactEmail" placeholder="Enter contact email" required />
+              </div>
+              <div class="form-group">
+                <label for="event-type">Event Type</label>
+                <select id="event-type" name="eventType" required>
+                  <option value="public">Public</option>
+                  <option value="private">Private</option>
+                  <option value="rso">RSO</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="rso-id">RSO ID (if applicable)</label>
+                <input type="number" id="rso-id" name="rsoID" placeholder="Enter RSO ID (optional)" />
+              </div>
+              <button type="submit" class="btn">Create Event</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Load dedicated JS file for create-event -->
+    <script src="./js/create-event.js"></script>
+  </body>
+</html>
