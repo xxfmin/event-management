@@ -4,12 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="./css/dashboard.css" />
   </head>
   <body>
     <!-- Navigation Bar -->
     <header id="navbar-placeholder"></header>
-
 
     <!-- Dashboard Main Content -->
     <div class="dashboard-container">
@@ -35,7 +34,8 @@
         <div class="event-card">
           <h2 class="event-title">Event Title</h2>
           <p class="event-description">
-            Brief description of the event. Details about what the event is about, location, and date/time.
+            Brief description of the event. Details about what the event is
+            about, location, and date/time.
           </p>
           <div class="event-meta">
             <span class="event-date">Date: 2025-04-10</span>
@@ -49,17 +49,17 @@
       </section>
     </div>
     <script>
-        fetch('navbar.html')
-        .then(response => {
+      fetch("navbar.html")
+        .then((response) => {
           if (!response.ok) {
-            throw new Error('Network response error');
+            throw new Error("Network response error");
           }
           return response.text();
         })
-        .then(data=> {
-          document.getElementById('navbar-placeholder').innerHTML = data;
+        .then((data) => {
+          document.getElementById("navbar-placeholder").innerHTML = data;
         })
-        .catch(error=> console.error('Error fetching navbar:', error));
+        .catch((error) => console.error("Error fetching navbar:", error));
     </script>
   </body>
 </html>

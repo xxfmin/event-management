@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>College Event Viewer - Home</title>
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="./css/index.css" />
   </head>
   <body>
     <!-- Navigation Bar -->
@@ -39,18 +39,8 @@
     <footer>
       <p>&copy; 2025 College Event Viewer. All rights reserved.</p>
     </footer>
-    <script>
-      fetch('navbar.html')
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response error');
-          }
-          return response.text();
-        })
-        .then(data=> {
-          document.getElementById('navbar-placeholder').innerHTML = data;
-        })
-        .catch(error=> console.error('Error fetching navbar:', error));
-    </script>
+
+    <!-- Include the JS file -->
+    <script src="js/app.js"></script>
   </body>
 </html>
