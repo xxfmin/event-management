@@ -33,7 +33,7 @@ function setupRegister() {
       return;
     }
     const formData = new FormData(registerForm);
-    fetch("../../api/register.php", {
+    fetch("../api/register.php", {
       method: "POST",
       body: formData,
     })
