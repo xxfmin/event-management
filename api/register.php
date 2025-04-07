@@ -4,19 +4,21 @@ header("Content-Type: application/json");
 include 'connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username     = $conn->real_escape_string($_POST['username'] ?? '');
-    $password     = md5($_POST['password'] ?? '');
-    $email        = $conn->real_escape_string($_POST['email'] ?? '');
-    $userType     = $conn->real_escape_string($_POST['userType'] ?? '');
-    $universityID = intval($_POST['universityID'] ?? 0);
-
-    if (!$username || !$password || !$email || !$userType || !$universityID) {
-        echo json_encode(["success" => false, "message" => "Missing required fields."]);
+    // Sanitize inputs
+    $username = $conn->real_escape_string($_POST['username'] ?? '');
+    $password = md5($_POST['password'] ?? ''); // For production, use a stronger hash
+    $email = $conn->real_escape_string($_POST['email'] ?? '');
+    $userType = $conn->real_escape_string($_POST['userType'] ?? '');
+    $studentID = $conn->real_escape_string($_POST['studentID'] ?? '');
+    
+    // Validate that studentID is exactly 7 digits
+    if (!preg_match('/^\d{7}$/', $studentID)) {
+        echo json_encode(["success" => false, "message" => "Student ID must be exactly 7 digits."]);
         exit();
     }
-
-    $sql = "INSERT INTO Users (username, password, email, userType, universityID)
-            VALUES ('$username', '$password', '$email', '$userType', $universityID)";
+    
+    $sql = "INSERT INTO Users (studentID, username, password, email, userType)
+            VALUES ('$studentID', '$username', '$password', '$email', '$userType')";
     if ($conn->query($sql) === TRUE) {
         echo json_encode(["success" => true, "message" => "Registration successful."]);
     } else {
