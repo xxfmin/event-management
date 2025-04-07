@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadNavbar() {
-  fetch("navbar.html")
+  fetch("http://localhost:8888/frontend/navbar.html")
     .then((response) => {
       if (!response.ok) throw new Error("Network response error");
       return response.text();
@@ -24,7 +24,7 @@ function setupLogin() {
   loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
     const formData = new FormData(loginForm);
-    fetch("../../api/login.php", {
+    fetch("http://localhost:8888/api/login.php", {
       method: "POST",
       body: formData,
       credentials: "include",
@@ -32,7 +32,9 @@ function setupLogin() {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          alert("Login successful!");
+          // Save both username and userType in localStorage
+          localStorage.setItem("username", data.user.username);
+          localStorage.setItem("userType", data.user.userType);
           window.location.href = "dashboard.html";
         } else {
           alert("Login failed: " + data.message);
