@@ -1,4 +1,3 @@
-// js/create-event.js
 document.addEventListener("DOMContentLoaded", function () {
   loadNavbar();
   setupCreateEvent();

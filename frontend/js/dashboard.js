@@ -9,29 +9,17 @@ document.addEventListener("DOMContentLoaded", function () {
 // ----- Navbar and Logout Functions -----
 
 function loadNavbar() {
-  fetch("navbar.html")
+  fetch("http://localhost:8888/frontend/navbar.html")
     .then((response) => {
       if (!response.ok) throw new Error("Network response error");
       return response.text();
     })
-    .then((data) => {
-      document.getElementById("navbar-placeholder").innerHTML = data;
+    .then((html) => {
+      document.getElementById("navbar-placeholder").innerHTML = html;
+      adjustNavbar(); // Once the navbar is loaded, adjust it based on login status
     })
     .catch((error) => console.error("Error loading navbar:", error));
 }
-
-// function loadNavbar() {
-//   fetch("http://localhost:8888/frontend/navbar.html")
-//     .then((response) => {
-//       if (!response.ok) throw new Error("Network response error");
-//       return response.text();
-//     })
-//     .then((html) => {
-//       document.getElementById("navbar-placeholder").innerHTML = html;
-//       adjustNavbar(); // Once the navbar is loaded, adjust it based on login status
-//     })
-//     .catch((error) => console.error("Error loading navbar:", error));
-// }
 
 function adjustNavbar() {
   // Read the userType from localStorage to decide which buttons to show
