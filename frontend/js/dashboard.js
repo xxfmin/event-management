@@ -15,7 +15,7 @@ function loadNavbar() {
     })
     .then((html) => {
       document.getElementById("navbar-placeholder").innerHTML = html;
-      adjustNavbar();
+      adjustNavbar(); // Once the navbar is loaded, adjust it based on login status
     })
     .catch((error) => console.error("Error loading navbar:", error));
 }
@@ -26,6 +26,7 @@ function adjustNavbar() {
   const loginBtn = document.getElementById("loginBtn");
   const registerBtn = document.getElementById("registerBtn");
   const logoutBtn = document.getElementById("logoutBtn");
+
   if (userType) {
     if (homeBtn) homeBtn.style.display = "none";
     if (loginBtn) loginBtn.style.display = "none";
@@ -42,6 +43,7 @@ function adjustNavbar() {
 function logoutUser() {
   localStorage.removeItem("username");
   localStorage.removeItem("userType");
+
   fetch("http://localhost:8888/api/logout.php", {
     method: "GET",
     credentials: "include",
@@ -76,9 +78,11 @@ function displayRSOAndEventActions() {
       const eventActionDiv = document.getElementById("eventAction");
       if (data.success) {
         if (data.rso === null) {
+          // No RSO exists for this admin
           rsoActionDiv.innerHTML = `<button class="btn" onclick="window.location.href='createRSO.html'">Create RSO</button>`;
           eventActionDiv.innerHTML = "";
         } else {
+          // RSO already created
           rsoActionDiv.innerHTML = `<button class="btn" onclick="window.location.href='rso-requests.html'">View Join Requests</button>`;
           eventActionDiv.innerHTML = `<button class="btn" onclick="window.location.href='create-event.html'">Create Event</button>`;
         }
