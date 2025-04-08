@@ -18,7 +18,6 @@
     margin: 1rem;
   }
   
-  /* New styles for inline login fields */
   .login-form .login-container {
     display: flex;
     align-items: center;
@@ -31,7 +30,6 @@
     flex-direction: column;
   }
   
-  /* Rest of your CSS */
   label {
     margin-bottom: 0.25rem;
     font-weight: bold;
