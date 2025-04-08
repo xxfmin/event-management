@@ -4,17 +4,61 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadNavbar() {
-  fetch("navbar.html")
+  fetch("http://localhost:8888/frontend/navbar.html")
     .then((response) => {
-      if (!response.ok) throw new Error("Network response error");
+      if (!response.ok) {
+        throw new Error("Network response error");
+      }
       return response.text();
     })
-    .then((data) => {
-      document.getElementById("navbar-placeholder").innerHTML = data;
+    .then((html) => {
+      document.getElementById("navbar-placeholder").innerHTML = html;
+      adjustNavbar();
     })
     .catch((error) => console.error("Error loading navbar:", error));
 }
 
+function adjustNavbar() {
+  const userType = localStorage.getItem("userType");
+  const homeBtn = document.getElementById("homeBtn");
+  const loginBtn = document.getElementById("loginBtn");
+  const registerBtn = document.getElementById("registerBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (userType) {
+    if (homeBtn) homeBtn.style.display = "none";
+    if (loginBtn) loginBtn.style.display = "none";
+    if (registerBtn) registerBtn.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "inline-block";
+  } else {
+    if (homeBtn) homeBtn.style.display = "inline-block";
+    if (loginBtn) loginBtn.style.display = "inline-block";
+    if (registerBtn) registerBtn.style.display = "inline-block";
+    if (logoutBtn) logoutBtn.style.display = "none";
+  }
+}
+
+// Global logout function (can be called from the navbar button)
+function logoutUser() {
+  localStorage.removeItem("username");
+  localStorage.removeItem("userType");
+
+  fetch("http://localhost:8888/api/logout.php", {
+    method: "GET",
+    credentials: "include",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      alert(data.message);
+      window.location.href = "http://localhost:8888/frontend/index.html";
+    })
+    .catch((error) => {
+      console.error("Error during logout:", error);
+      window.location.href = "http://localhost:8888/frontend/index.html";
+    });
+}
+
+// Setup the Create Event form submission
 function setupCreateEvent() {
   const createEventForm = document.getElementById("createEventForm");
   if (!createEventForm) {
@@ -24,7 +68,9 @@ function setupCreateEvent() {
   createEventForm.addEventListener("submit", function (e) {
     e.preventDefault();
     const formData = new FormData(createEventForm);
-    fetch("http://localhost:8888/api/getEvents.php", {
+    // Use the correct API endpoint for creating an event.
+    // Adjust the path if necessary; this example assumes the API folder is one level up.
+    fetch("http://localhost:8888/api/createEvent.php", {
       method: "POST",
       body: formData,
       credentials: "include",
