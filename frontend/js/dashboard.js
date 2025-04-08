@@ -15,7 +15,7 @@ function loadNavbar() {
     })
     .then((html) => {
       document.getElementById("navbar-placeholder").innerHTML = html;
-      adjustNavbar(); // Once the navbar is loaded, adjust it based on login status
+      adjustNavbar();
     })
     .catch((error) => console.error("Error loading navbar:", error));
 }
@@ -26,7 +26,6 @@ function adjustNavbar() {
   const loginBtn = document.getElementById("loginBtn");
   const registerBtn = document.getElementById("registerBtn");
   const logoutBtn = document.getElementById("logoutBtn");
-
   if (userType) {
     if (homeBtn) homeBtn.style.display = "none";
     if (loginBtn) loginBtn.style.display = "none";
@@ -43,7 +42,6 @@ function adjustNavbar() {
 function logoutUser() {
   localStorage.removeItem("username");
   localStorage.removeItem("userType");
-
   fetch("http://localhost:8888/api/logout.php", {
     method: "GET",
     credentials: "include",
@@ -78,11 +76,9 @@ function displayRSOAndEventActions() {
       const eventActionDiv = document.getElementById("eventAction");
       if (data.success) {
         if (data.rso === null) {
-          // No RSO exists for this admin
           rsoActionDiv.innerHTML = `<button class="btn" onclick="window.location.href='createRSO.html'">Create RSO</button>`;
           eventActionDiv.innerHTML = "";
         } else {
-          // RSO already created
           rsoActionDiv.innerHTML = `<button class="btn" onclick="window.location.href='rso-requests.html'">View Join Requests</button>`;
           eventActionDiv.innerHTML = `<button class="btn" onclick="window.location.href='create-event.html'">Create Event</button>`;
         }
@@ -121,7 +117,17 @@ function displayEvents(events) {
   const eventsList = document.querySelector(".events-list");
   if (!eventsList) return;
   eventsList.innerHTML = "";
+  const currentUserID = localStorage.getItem("userID");
+  const userType = localStorage.getItem("userType");
   events.forEach((event) => {
+    let deleteButtonHTML = "";
+    if (
+      userType === "admin" &&
+      currentUserID &&
+      parseInt(currentUserID) === event.createdBy
+    ) {
+      deleteButtonHTML = `<button class="btn btn-danger" onclick="deleteEvent(${event.eventID})">Delete</button>`;
+    }
     const card = document.createElement("div");
     card.className = "event-card";
     card.setAttribute("data-type", event.eventType);
@@ -133,13 +139,38 @@ function displayEvents(events) {
         <span class="event-time">Time: ${event.startTime}</span>
       </div>
       <div class="event-actions">
-        <button class="btn btn-secondary" onclick="viewEventDetails(${event.eventID})">
-          View Details
-        </button>
+        <button class="btn btn-secondary" onclick="viewEventDetails(${event.eventID})">View Details</button>
+        ${deleteButtonHTML}
       </div>
     `;
     eventsList.appendChild(card);
   });
+}
+
+function deleteEvent(eventID) {
+  if (
+    !confirm(
+      "Are you sure you want to delete this event? This action cannot be undone."
+    )
+  )
+    return;
+  const formData = new FormData();
+  formData.append("eventID", eventID);
+  fetch("http://localhost:8888/api/deleteEvent.php", {
+    method: "POST",
+    body: formData,
+    credentials: "include",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        alert("Event deleted successfully.");
+        loadEvents();
+      } else {
+        alert("Error deleting event: " + data.message);
+      }
+    })
+    .catch((error) => console.error("Error during event deletion:", error));
 }
 
 function setupFilters() {
