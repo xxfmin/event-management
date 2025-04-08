@@ -1,12 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
   loadNavbar();
   displayUsername();
-  showAdminActions();
+  displayRSOAndEventActions();
+  displayStudentAction();
   loadEvents();
   setupFilters();
 });
-
-// ----- Navbar and Logout Functions -----
 
 function loadNavbar() {
   fetch("http://localhost:8888/frontend/navbar.html")
@@ -16,27 +15,23 @@ function loadNavbar() {
     })
     .then((html) => {
       document.getElementById("navbar-placeholder").innerHTML = html;
-      adjustNavbar(); // Once the navbar is loaded, adjust it based on login status
+      adjustNavbar();
     })
     .catch((error) => console.error("Error loading navbar:", error));
 }
 
 function adjustNavbar() {
-  // Read the userType from localStorage to decide which buttons to show
   const userType = localStorage.getItem("userType");
   const homeBtn = document.getElementById("homeBtn");
   const loginBtn = document.getElementById("loginBtn");
   const registerBtn = document.getElementById("registerBtn");
   const logoutBtn = document.getElementById("logoutBtn");
-
   if (userType) {
-    // If logged in, hide Home, Log In, and Register; show Log Out
     if (homeBtn) homeBtn.style.display = "none";
     if (loginBtn) loginBtn.style.display = "none";
     if (registerBtn) registerBtn.style.display = "none";
     if (logoutBtn) logoutBtn.style.display = "inline-block";
   } else {
-    // Otherwise, show non-authenticated buttons; hide logout
     if (homeBtn) homeBtn.style.display = "inline-block";
     if (loginBtn) loginBtn.style.display = "inline-block";
     if (registerBtn) registerBtn.style.display = "inline-block";
@@ -45,11 +40,8 @@ function adjustNavbar() {
 }
 
 function logoutUser() {
-  // Clear client-side session info from localStorage
   localStorage.removeItem("username");
   localStorage.removeItem("userType");
-
-  // Fetch the logout API endpoint (from dashboard.html, "../api/logout.php" should be correct)
   fetch("http://localhost:8888/api/logout.php", {
     method: "GET",
     credentials: "include",
@@ -64,23 +56,44 @@ function logoutUser() {
     });
 }
 
-// ----- Dashboard-specific Functions -----
-
 function displayUsername() {
   const username = localStorage.getItem("username");
   if (username) {
-    // Assuming dashboard.html contains an element with id "welcome-message"
     document.getElementById("welcome-message").textContent =
       "Welcome, " + username;
   }
 }
 
-function showAdminActions() {
-  const userType = localStorage.getItem("userType");
-  const adminActions = document.querySelector(".admin-actions");
-  if (adminActions) {
-    // Show "Create Event" only if userType is "admin"
-    adminActions.style.display = userType === "admin" ? "block" : "none";
+function displayRSOAndEventActions() {
+  if (localStorage.getItem("userType") !== "admin") return;
+  fetch("http://localhost:8888/api/getMyRSO.php", {
+    method: "GET",
+    credentials: "include",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      const rsoActionDiv = document.getElementById("rsoAction");
+      const eventActionDiv = document.getElementById("eventAction");
+      if (data.success) {
+        if (data.rso === null) {
+          rsoActionDiv.innerHTML = `<button class="btn" onclick="window.location.href='createRSO.html'">Create RSO</button>`;
+          eventActionDiv.innerHTML = "";
+        } else {
+          rsoActionDiv.innerHTML = `<button class="btn" onclick="window.location.href='rso-requests.html'">View Join Requests</button>`;
+          eventActionDiv.innerHTML = `<button class="btn" onclick="window.location.href='create-event.html'">Create Event</button>`;
+        }
+      } else {
+        rsoActionDiv.innerHTML = "";
+        eventActionDiv.innerHTML = "";
+      }
+    })
+    .catch((error) => console.error("Error getting admin RSO:", error));
+}
+
+function displayStudentAction() {
+  if (localStorage.getItem("userType") === "student") {
+    const studentActionDiv = document.getElementById("studentAction");
+    studentActionDiv.innerHTML = `<button class="btn" onclick="window.location.href='view-rsos.html'">View RSOs</button>`;
   }
 }
 
@@ -149,6 +162,5 @@ function filterEvents(filter) {
 }
 
 function viewEventDetails(eventID) {
-  // Redirect to the event details page with the event ID as a query parameter.
   window.location.href = `http://localhost:8888/frontend/event-details.html?eventID=${eventID}`;
 }

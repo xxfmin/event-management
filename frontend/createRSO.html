@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create RSO</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <style>
+      .center-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        padding: 2rem;
+        text-align: center;
+      }
+      .form-box {
+        background-color: #fff;
+        width: 400px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 2rem;
+        margin-top: 1rem;
+        text-align: left;
+      }
+      .form-group {
+        margin-bottom: 1rem;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.5rem;
+      }
+      .btn {
+        background-color: #0b5ed7;
+        border: none;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .btn:hover {
+        background-color: #084298;
+      }
+      .back-button {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="navbar-placeholder"></header>
+    <div class="center-container">
+      <div class="back-button">
+        <button id="backBtn" class="btn">Back to Dashboard</button>
+      </div>
+      <div class="form-box">
+        <h2 style="text-align: center">Create RSO</h2>
+        <form id="createRSOForm" method="post">
+          <div class="form-group">
+            <label for="rso-name">RSO Name</label>
+            <input
+              type="text"
+              id="rso-name"
+              name="name"
+              placeholder="Enter RSO name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="rso-description">Description</label>
+            <textarea
+              id="rso-description"
+              name="description"
+              placeholder="Enter RSO description"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn">Create RSO</button>
+        </form>
+      </div>
+    </div>
+    <script src="./js/createRSO.js"></script>
+  </body>
+</html>

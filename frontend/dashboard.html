@@ -7,32 +7,26 @@
     <link rel="stylesheet" href="./css/dashboard.css" />
   </head>
   <body>
-    <!-- Navigation Bar -->
     <header id="navbar-placeholder"></header>
 
-    <!-- Dashboard Main Content -->
     <div class="dashboard-container">
       <header class="dashboard-header">
-        <!-- This heading will be updated dynamically -->
         <h1 id="welcome-message">Welcome, [User Name]</h1>
-        <!-- Admin-only action -->
-        <div class="admin-actions">
-          <a href="create-event.html" class="btn btn-primary">Create Event</a>
-        </div>
+        <!-- Container for admin RSO actions -->
+        <div id="rsoAction"></div>
+        <!-- Container for admin event actions -->
+        <div id="eventAction"></div>
+        <!-- Container for student actions -->
+        <div id="studentAction"></div>
       </header>
 
-      <!-- Event Filters -->
       <section class="event-filters">
         <button class="filter-btn active" data-filter="all">All Events</button>
         <button class="filter-btn" data-filter="public">Public Events</button>
-        <button class="filter-btn" data-filter="private">Private Events</button>
         <button class="filter-btn" data-filter="rso">RSO Events</button>
       </section>
 
-      <!-- Events List -->
-      <section class="events-list">
-        <!-- Event cards will be dynamically loaded here -->
-      </section>
+      <section class="events-list"></section>
     </div>
 
     <script src="./js/dashboard.js"></script>

@@ -1,0 +1,38 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+.rsos-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 4px;
+}
+.rsos-container h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.rso-item {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+.rso-item h2 {
+  margin-bottom: 0.5rem;
+}
+.rso-item p {
+  margin-bottom: 0.5rem;
+}
+.rso-item button {
+  padding: 0.5rem 1rem;
+  background-color: #0b5ed7;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+}
+.rso-item button:hover {
+  background-color: #084298;
+}
