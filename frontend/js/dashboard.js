@@ -150,5 +150,5 @@ function filterEvents(filter) {
 
 function viewEventDetails(eventID) {
   // Redirect to the event details page with the event ID as a query parameter.
-  window.location.href = `event_details.html?eventID=${eventID}`;
+  window.location.href = `http://localhost:8888/frontend/event-details.html?eventID=${eventID}`;
 }
