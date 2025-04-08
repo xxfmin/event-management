@@ -74,4 +74,14 @@
     border-radius: 0.5rem;
   }
 
+  .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
   
+  .form-group label {
+    width: 150px;
+    margin-right: 1rem;
+    text-align:right;
+  }

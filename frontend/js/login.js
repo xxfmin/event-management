@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadNavbar() {
-  fetch("http://localhost:8888/frontend/navbar.html")
+  fetch("navbar.html")
     .then((response) => {
       if (!response.ok) throw new Error("Network response error");
       return response.text();
@@ -14,6 +14,18 @@ function loadNavbar() {
     })
     .catch((error) => console.error("Error loading navbar:", error));
 }
+
+// function loadNavbar() {
+//   fetch("http://localhost:8888/frontend/navbar.html")
+//     .then((response) => {
+//       if (!response.ok) throw new Error("Network response error");
+//       return response.text();
+//     })
+//     .then((data) => {
+//       document.getElementById("navbar-placeholder").innerHTML = data;
+//     })
+//     .catch((error) => console.error("Error loading navbar:", error));
+// }
 
 function setupLogin() {
   const loginForm = document.getElementById("loginForm");
