@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // ---------- Navbar Functions (Optional) ----------
 function loadNavbar() {
-  // From "frontend/event_details.html", move one level up to access "navbar.html"
   fetch("http://localhost:8888/frontend/navbar.html")
     .then((response) => {
       if (!response.ok) throw new Error("Network response error");
@@ -60,7 +59,6 @@ function logoutUser() {
   localStorage.removeItem("username");
   localStorage.removeItem("userType");
 
-  // Fetch the logout API endpoint (from dashboard.html, "../api/logout.php" should be correct)
   fetch("http://localhost:8888/api/logout.php", {
     method: "GET",
     credentials: "include",
@@ -77,7 +75,6 @@ function logoutUser() {
 
 // ---------- Event Details Functions ----------
 function fetchEventDetails(eventID) {
-  // Adjust path from "frontend/event_details.html" to "api/getEventDetails.php"
   fetch(`http://localhost:8888/api/getEventDetails.php?eventID=${eventID}`, {
     method: "GET",
     credentials: "include",
@@ -109,7 +106,6 @@ function displayEventInfo(eventData, avgRating) {
   document.getElementById("eventDescription").textContent =
     eventData.description || "";
 
-  // Display Date, Time, and Location on separate lines
   document.getElementById("eventDate").textContent =
     "Date: " + (eventData.eventDate || "");
   document.getElementById("eventTime").textContent = `Time: ${
@@ -206,8 +202,6 @@ function setupRatingForm(eventID) {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          alert("Rating submitted successfully.");
-          // Refresh event details to update the average rating
           fetchEventDetails(eventID);
         } else {
           alert("Error submitting rating: " + data.message);
