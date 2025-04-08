@@ -39,7 +39,7 @@ function adjustNavbar() {
   }
 }
 
-// Global logout function (can be called from the navbar button)
+// Global logout function
 function logoutUser() {
   localStorage.removeItem("username");
   localStorage.removeItem("userType");
@@ -69,8 +69,6 @@ function setupCreateEvent() {
   createEventForm.addEventListener("submit", function (e) {
     e.preventDefault();
     const formData = new FormData(createEventForm);
-    // Use the correct API endpoint for creating an event.
-    // Adjust the path if necessary; this example assumes the API folder is one level up.
     fetch("http://localhost:8888/api/createEvent.php", {
       method: "POST",
       body: formData,
@@ -91,7 +89,6 @@ function setupCreateEvent() {
 
 // ---------- Back Button Functionality ----------
 function setupBackButton() {
-  // Expect a button with id "backBtn" exists in the HTML.
   const backBtn = document.getElementById("backBtn");
   if (backBtn) {
     backBtn.addEventListener("click", function () {
