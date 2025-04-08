@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   loadNavbar();
   setupCreateEvent();
+  setupBackButton();
 });
 
 function loadNavbar() {
@@ -86,4 +87,15 @@ function setupCreateEvent() {
       })
       .catch((error) => console.error("Error during event creation:", error));
   });
+}
+
+// ---------- Back Button Functionality ----------
+function setupBackButton() {
+  // Expect a button with id "backBtn" exists in the HTML.
+  const backBtn = document.getElementById("backBtn");
+  if (backBtn) {
+    backBtn.addEventListener("click", function () {
+      window.location.href = "http://localhost:8888/frontend/dashboard.html";
+    });
+  }
 }
