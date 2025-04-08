@@ -44,14 +44,12 @@ function logoutUser() {
   localStorage.removeItem("username");
   localStorage.removeItem("userType");
 
-  // Call the logout API (adjust relative path: from "frontend/js", API is two levels up in "api")
   fetch("http://localhost:8888/api/logout.php", {
     method: "GET",
     credentials: "include",
   })
     .then((response) => response.json())
     .then((data) => {
-      alert(data.message);
       window.location.href = "http://localhost:8888/frontend/index.html";
     })
     .catch((error) => {
