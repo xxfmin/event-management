@@ -19,7 +19,13 @@ if (!$name) {
 
 $sql = "INSERT INTO RSOs (name, description, adminID) VALUES ('$name', '$description', $adminID)";
 if ($conn->query($sql) === TRUE) {
-    echo json_encode(["success" => true, "message" => "RSO created successfully."]);
+    $rsoID = $conn->insert_id;
+    $membershipSql = "INSERT INTO Students_RSO (userID, rsoID) VALUES ($adminID, $rsoID)";
+    if ($conn->query($membershipSql) === TRUE) {
+        echo json_encode(["success" => true, "message" => "RSO created successfully and user added."]);
+    } else {
+        echo json_encode(["success" => false, "message" => "RSO created successfully but failed to add user." . $conn->error]);
+    }
 } else {
     echo json_encode(["success" => false, "message" => "Error: " . $conn->error]);
 }
