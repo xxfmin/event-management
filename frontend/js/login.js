@@ -32,9 +32,9 @@ function setupLogin() {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          // Save both username and userType in localStorage
           localStorage.setItem("username", data.user.username);
           localStorage.setItem("userType", data.user.userType);
+          localStorage.setItem("userID", data.user.userID); 
           window.location.href = "dashboard.html";
         } else {
           alert("Login failed: " + data.message);
