@@ -9,6 +9,7 @@ if (!isset($_SESSION['userID'])) {
 }
 
 $userID = intval($_SESSION['userID']);
+$username = $conn->real_escape_string($_SESSION['username']);
 
 $sql = "
   SELECT E.*, L.name AS locationName
@@ -23,6 +24,10 @@ $sql = "
         FROM Students_RSO s
         WHERE s.userID = $userID
       )
+    )
+    OR (
+      E.eventType = 'private'
+      AND ('$username' LIKE '%@ucf.edu')
     )
 ";
 

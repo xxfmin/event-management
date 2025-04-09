@@ -35,6 +35,7 @@ function setupLogin() {
           localStorage.setItem("username", data.user.username);
           localStorage.setItem("userType", data.user.userType);
           localStorage.setItem("userID", data.user.userID); 
+          localStorage.setItem("email", data.user.email);
           window.location.href = "dashboard.html";
         } else {
           alert("Login failed: " + data.message);

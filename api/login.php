@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['userID']   = $user['userID'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['userType'] = $user['userType'];
+        $_SESSION['email'] = $user['email'];
         echo json_encode(["success" => true, "message" => "Login successful.", "user" => $user]);
     } else {
         echo json_encode(["success" => false, "message" => "Invalid login credentials."]);
