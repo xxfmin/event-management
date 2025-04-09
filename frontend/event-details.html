@@ -7,17 +7,8 @@
     <link rel="stylesheet" href="./css/event-details.css" />
   </head>
   <body>
-    <!-- Navbar placeholder (if you use the shared navbar) -->
     <header id="navbar-placeholder"></header>
-
-    <!-- Back to Dashboard Button -->
-    <div class="back-button">
-      <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
-    </div>
-
-    <!-- Main Content Container -->
     <div class="event-details-container">
-      <!-- Event Information Section -->
       <section class="event-info">
         <h1 id="eventTitle">Loading Event...</h1>
         <p id="eventCategory"></p>
@@ -29,24 +20,25 @@
         </div>
         <div id="ratingDisplay" class="event-rating">Avg. Rating: N/A</div>
       </section>
-
-      <!-- Rating Section -->
       <section class="rating-section">
         <h2>Your Rating</h2>
         <form id="ratingForm">
           <label for="ratingInput">Rate this event (1-5):</label>
-          <input type="number" id="ratingInput" name="rating" min="1" max="5" required />
-          <!-- The eventID will be set dynamically in JavaScript -->
+          <input
+            type="number"
+            id="ratingInput"
+            name="rating"
+            min="1"
+            max="5"
+            required
+          />
           <input type="hidden" id="ratingEventID" name="eventID" value="" />
           <button type="submit" class="btn btn-primary">Submit Rating</button>
         </form>
       </section>
-
-      <!-- Comments Section -->
       <section class="comments-section">
         <h2>Comments</h2>
-        <div id="commentsList"><!-- Comments will load here --></div>
-        <!-- Comment Form -->
+        <div id="commentsList"></div>
         <div class="comment-form">
           <h3>Add a Comment</h3>
           <form id="commentForm">
@@ -62,7 +54,6 @@
         </div>
       </section>
     </div>
-
     <script src="./js/event-details.js"></script>
   </body>
 </html>

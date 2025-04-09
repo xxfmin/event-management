@@ -1,26 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
   loadNavbar();
-
-  // Get the eventID from the URL, e.g., ?eventID=123
   const urlParams = new URLSearchParams(window.location.search);
   const eventID = urlParams.get("eventID");
   if (!eventID) {
     alert("No event ID provided in URL.");
     return;
   }
-
-  // Set the hidden rating input value to the current eventID
   document.getElementById("ratingEventID").value = eventID;
-
-  // Fetch event details, comments, and average rating
   fetchEventDetails(eventID);
-
-  // Setup the comment and rating form handlers
   setupCommentForm(eventID);
   setupRatingForm(eventID);
 });
 
-// ---------- Navbar Functions (Optional) ----------
 function loadNavbar() {
   fetch("http://localhost:8888/frontend/navbar.html")
     .then((response) => {
@@ -40,7 +31,6 @@ function adjustNavbar() {
   const loginBtn = document.getElementById("loginBtn");
   const registerBtn = document.getElementById("registerBtn");
   const logoutBtn = document.getElementById("logoutBtn");
-
   if (userType) {
     if (homeBtn) homeBtn.style.display = "none";
     if (loginBtn) loginBtn.style.display = "none";
@@ -55,10 +45,8 @@ function adjustNavbar() {
 }
 
 function logoutUser() {
-  // Clear client-side session info from localStorage
   localStorage.removeItem("username");
   localStorage.removeItem("userType");
-
   fetch("http://localhost:8888/api/logout.php", {
     method: "GET",
     credentials: "include",
@@ -73,7 +61,6 @@ function logoutUser() {
     });
 }
 
-// ---------- Event Details Functions ----------
 function fetchEventDetails(eventID) {
   fetch(`http://localhost:8888/api/getEventDetails.php?eventID=${eventID}`, {
     method: "GET",
@@ -93,19 +80,15 @@ function fetchEventDetails(eventID) {
 
 function displayEventInfo(eventData, avgRating) {
   if (!eventData) return;
-
-  // Capitalize first letter of eventCategory
   const category = eventData.eventCategory
     ? eventData.eventCategory.charAt(0).toUpperCase() +
       eventData.eventCategory.slice(1)
     : "";
-
   document.getElementById("eventTitle").textContent =
     eventData.eventName || "Untitled Event";
   document.getElementById("eventCategory").textContent = category;
   document.getElementById("eventDescription").textContent =
     eventData.description || "";
-
   document.getElementById("eventDate").textContent =
     "Date: " + (eventData.eventDate || "");
   document.getElementById("eventTime").textContent = `Time: ${
@@ -113,7 +96,6 @@ function displayEventInfo(eventData, avgRating) {
   } - ${eventData.endTime || ""}`;
   document.getElementById("eventLocation").textContent =
     "Location: " + (eventData.locationName || "");
-
   const ratingEl = document.getElementById("ratingDisplay");
   if (avgRating && avgRating > 0) {
     ratingEl.textContent = `Avg. Rating: ${avgRating}/5`;
@@ -124,30 +106,50 @@ function displayEventInfo(eventData, avgRating) {
 
 function displayComments(comments) {
   const commentsList = document.getElementById("commentsList");
-  commentsList.innerHTML = ""; // Clear previous comments
-
+  commentsList.innerHTML = "";
   if (!comments || comments.length === 0) {
     commentsList.innerHTML = "<p>No comments yet.</p>";
     return;
   }
-
+  const currentUserID = localStorage.getItem("userID");
   comments.forEach((comment) => {
+    console.log(
+      "comment userID:",
+      comment.userID,
+      "currentUserID:",
+      currentUserID
+    );
+    let actionButtons = "";
+    if (parseInt(currentUserID) === comment.userID) {
+      actionButtons = `
+    <button class="btn btn-secondary"
+            onclick="editComment(${comment.commentID}, '${encodeURIComponent(
+        comment.commentText
+      )}')">
+      Edit
+    </button>
+    <button class="btn btn-danger"
+            onclick="deleteComment(${comment.commentID})">
+      Delete
+    </button>
+  `;
+    }
+
     const commentDiv = document.createElement("div");
     commentDiv.className = "comment-item";
     commentDiv.innerHTML = `
-        <h4>${comment.username}</h4>
-        <p>${comment.commentText}</p>
-        <div class="comment-timestamp">${comment.commentTimestamp}</div>
-      `;
+      <h4>${comment.username}</h4>
+      <p id="comment-text-${comment.commentID}">${comment.commentText}</p>
+      <div class="comment-timestamp">${comment.commentTimestamp}</div>
+      ${actionButtons}
+    `;
     commentsList.appendChild(commentDiv);
   });
 }
 
-// ---------- Comment Form Handler ----------
 function setupCommentForm(eventID) {
   const commentForm = document.getElementById("commentForm");
   if (!commentForm) return;
-
   commentForm.addEventListener("submit", function (e) {
     e.preventDefault();
     const commentText = document.getElementById("commentText").value.trim();
@@ -158,7 +160,6 @@ function setupCommentForm(eventID) {
     const formData = new FormData();
     formData.append("eventID", eventID);
     formData.append("commentText", commentText);
-
     fetch("http://localhost:8888/api/comment.php", {
       method: "POST",
       body: formData,
@@ -167,7 +168,6 @@ function setupCommentForm(eventID) {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          // Re-fetch event details to update the comment list
           fetchEventDetails(eventID);
           commentForm.reset();
         } else {
@@ -178,11 +178,9 @@ function setupCommentForm(eventID) {
   });
 }
 
-// ---------- Rating Form Handler ----------
 function setupRatingForm(eventID) {
   const ratingForm = document.getElementById("ratingForm");
   if (!ratingForm) return;
-
   ratingForm.addEventListener("submit", function (e) {
     e.preventDefault();
     const ratingValue = document.getElementById("ratingInput").value;
@@ -193,7 +191,6 @@ function setupRatingForm(eventID) {
     const formData = new FormData();
     formData.append("eventID", eventID);
     formData.append("rating", ratingValue);
-
     fetch("http://localhost:8888/api/rating.php", {
       method: "POST",
       body: formData,
@@ -202,6 +199,7 @@ function setupRatingForm(eventID) {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
+          alert("Rating submitted successfully.");
           fetchEventDetails(eventID);
         } else {
           alert("Error submitting rating: " + data.message);
@@ -209,4 +207,50 @@ function setupRatingForm(eventID) {
       })
       .catch((error) => console.error("Error submitting rating:", error));
   });
+}
+
+function editComment(commentID, encodedCommentText) {
+  const originalText = decodeURIComponent(encodedCommentText);
+  const newText = prompt("Edit your comment:", originalText);
+  if (newText === null || newText.trim() === "" || newText === originalText)
+    return;
+  const formData = new FormData();
+  formData.append("commentID", commentID);
+  formData.append("commentText", newText.trim());
+  fetch("http://localhost:8888/api/updateComment.php", {
+    method: "POST",
+    body: formData,
+    credentials: "include",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        alert("Comment updated successfully.");
+        fetchEventDetails(document.getElementById("ratingEventID").value);
+      } else {
+        alert("Error updating comment: " + data.message);
+      }
+    })
+    .catch((error) => console.error("Error updating comment:", error));
+}
+
+function deleteComment(commentID) {
+  if (!confirm("Are you sure you want to delete this comment?")) return;
+  const formData = new FormData();
+  formData.append("commentID", commentID);
+  fetch("http://localhost:8888/api/deleteComment.php", {
+    method: "POST",
+    body: formData,
+    credentials: "include",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        alert("Comment deleted successfully.");
+        fetchEventDetails(document.getElementById("ratingEventID").value);
+      } else {
+        alert("Error deleting comment: " + data.message);
+      }
+    })
+    .catch((error) => console.error("Error deleting comment:", error));
 }
