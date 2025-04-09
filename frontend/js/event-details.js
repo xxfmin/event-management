@@ -120,7 +120,7 @@ function displayComments(comments) {
       currentUserID
     );
     let actionButtons = "";
-    if (parseInt(currentUserID) === comment.userID) {
+    if (parseInt(currentUserID) === parseInt(comment.userID)) {
       actionButtons = `
     <button class="btn btn-secondary"
             onclick="editComment(${comment.commentID}, '${encodeURIComponent(
