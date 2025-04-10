@@ -57,10 +57,10 @@ function logoutUser() {
 }
 
 function displayUsername() {
-  const username = localStorage.getItem("username");
-  if (username) {
+  const email = localStorage.getItem("email");
+  if (email) {
     document.getElementById("welcome-message").textContent =
-      "Welcome, " + username;
+      "Welcome, " + localStorage.getItem("email");
   }
 }
 
