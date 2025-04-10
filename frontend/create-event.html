@@ -122,15 +122,16 @@
             <input type="time" id="end-time" name="endTime" required />
           </div>
           <div class="form-group">
-            <label for="location-id">Location ID</label>
+            <label for="location-name">Location</label>
             <input
-              type="number"
-              id="location-id"
-              name="locationID"
-              placeholder="Enter location ID"
+              type="text"
+              id="location-name"
+              name="locationName"
+              placeholder="Type any location"
               required
             />
           </div>
+          <input type="hidden" name="locationID" value="1">
           <div class="form-group">
             <label for="contact-phone">Contact Phone</label>
             <input
